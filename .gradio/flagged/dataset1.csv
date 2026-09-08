@@ -1,0 +1,3 @@
+alcohol,malic_acid,ash,alcalinity_of_ash,magnesium,total_phenols,flavanoids,nonflavanoid_phenols,proanthocyanins,color_intensity,hue,od280/od315_of_diluted_wines,proline,Распределение вероятностей по сортам,timestamp
+21,1.8,2.4,18,105,2.7,2.9,0.28,1.85,5.5,1.05,3.2,1180,"{""label"": null, ""confidences"": null}",2026-07-20 15:48:08.374169
+10,1.8,2.4,18,105,2.7,2.9,0.28,1.85,5.5,1.05,3.2,1180,"{""label"": null, ""confidences"": null}",2026-07-20 15:48:14.647807
