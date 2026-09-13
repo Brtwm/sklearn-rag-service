@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+qdrant_data/
+data/corpus_chunks.jsonl
