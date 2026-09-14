@@ -11,7 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем папку app/ внутрь контейнера в /app/app
 COPY app ./app
-COPY models/ ./models/
+# Копируем только исходные локальные документы. Сгенерированные чанки
+# создаются внутри контейнера командой load_corpus.
+COPY data/local ./data/local
 
 # Не буферизовать stdout — иначе логи могут "застрять" и не попасть в docker logs
 ENV PYTHONUNBUFFERED=1
