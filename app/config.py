@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     llm_temperature: float = 0.0
 
     # Vector store
-    qdrant_url: str = "http://qdrant:6333"
+    qdrant_url: str = "http://localhost:6333"
     collection_name: str = "sklearn_docs"
     top_k: int = 4
 
