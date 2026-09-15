@@ -17,6 +17,8 @@ services:
 
     environment:
       QDRANT_URL: http://qdrant:6333
+      NO_PROXY: localhost,127.0.0.1,qdrant
+      no_proxy: localhost,127.0.0.1,qdrant
 
     networks:
       - rag-net
