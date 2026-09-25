@@ -43,7 +43,7 @@ PROMPT = ChatPromptTemplate.from_messages(
 
 def get_vectorstore() -> QdrantVectorStore:
     """Поднять клиент Qdrant + эмбеддер и завернуть в LangChain-VectorStore."""
-    client = QdrantClient(url=settings.qdrant_url)
+    client = QdrantClient(url=settings.qdrant_url, trust_env=False)
 
     embeddings = HuggingFaceEmbeddings(
         model_name=settings.embedding_model,
