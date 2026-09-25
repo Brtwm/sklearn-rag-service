@@ -4,7 +4,27 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          LLM_API_KEY: test-key
+          QDRANT_URL: http://localhost:6333
+        run: pytest tests/ -v
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -13,7 +33,7 @@ jobs:
       - name: Prepare image name
         id: image
         run: |
-          echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/task-api" >> "$GITHUB_OUTPUT"
+          echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/sklearn-rag-service" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -33,18 +53,28 @@ jobs:
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: GHCR_TOKEN,LLM_API_KEY
           script: |
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            set -e
+            cd /opt/mentoring/rag-service
+            umask 077
+            printf 'LLM_API_KEY=%s\nQDRANT_URL=http://qdrant:6333\n' "$LLM_API_KEY" > .env
+            printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             docker pull ${{ steps.image.outputs.name }}:latest
-            docker rm -f task-api 2>/dev/null || true
+            docker compose up -d qdrant
+            docker rm -f rag-app 2>/dev/null || true
             docker run -d \
-              --name task-api \
+              --name rag-app \
               --restart unless-stopped \
               -p 127.0.0.1:8000:8000 \
-              -e LOG_LEVEL=INFO \
+              --network rag-net \
+              --env-file .env \
               ${{ steps.image.outputs.name }}:latest
             docker logout ghcr.io
