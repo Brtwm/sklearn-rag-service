@@ -1,0 +1,56 @@
+{
+  "n_questions": 10,
+  "model": "qwen/qwen3.8-27b",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "top_k": 4,
+  "retriever": {
+    "recall_at_4": 1.0,
+    "hits": 10
+  },
+  "generation": {
+    "faithfulness": 0.9535024154589371,
+    "answer_relevancy": 0.737992711973908
+  },
+  "questions": [
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9904948978418382
+    },
+    {
+      "faithfulness": 0.875,
+      "answer_relevancy": 0.9799872206516107
+    },
+    {
+      "faithfulness": 0.9565217391304348,
+      "answer_relevancy": 0.9594624874824469
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9511953929476531
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9469249551774093
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9469272534036879
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.0
+    },
+    {
+      "faithfulness": 0.75,
+      "answer_relevancy": 0.0
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8669422002605264
+    },
+    {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.857728384086681
+    }
+  ]
+}
