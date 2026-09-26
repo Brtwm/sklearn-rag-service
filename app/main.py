@@ -161,8 +161,6 @@ CSS = """
 with gr.Blocks(
     title="scikit-learn docs RAG",
     fill_height=True,
-    theme=gr.themes.Soft(),
-    css=CSS,
 ) as demo:
     gr.Markdown(
         "# 📖 scikit-learn docs RAG assistant\n"
@@ -172,9 +170,8 @@ with gr.Blocks(
         with gr.Column(scale=3):
             chatbot = gr.Chatbot(
                 elem_id="chatbot",
-                type="messages",
                 latex_delimiters=LATEX_DELIMITERS,
-                show_copy_button=True,
+                buttons=["copy"],
                 avatar_images=(None, None),
             )
             with gr.Row():
@@ -208,4 +205,6 @@ app = gr.mount_gradio_app(
     app,
     demo,
     path="/",
+    theme=gr.themes.Soft(),
+    css=CSS,
 )
