@@ -178,7 +178,12 @@ def respond(message: str, history: list):
                 f"- 🤖 **LLM:** _streaming… {len(accumulated)} chars_",
                 sources_panel,
             )
-        
+
+        if ttft_ms is None:
+            history[-1]["content"] = "⚠️ LLM не вернула ответ. Попробуй ещё раз."
+            yield history, "", _format_timings(retrieval_ms, None, "empty response"), sources_panel
+            return
+
         llm_total_ms = (time.perf_counter() - t1) * 1000
         yield (
             history, "",
