@@ -1,9 +1,8 @@
-"""LCEL-цепочка RAG: retriever -> prompt -> LLM -> parser."""
+"""RAG retrieval and LCEL answer generation."""
 
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
@@ -59,6 +58,15 @@ def get_vectorstore() -> QdrantVectorStore:
     )
 
 
+def index_available() -> bool:
+    """Check whether the active Qdrant collection is reachable."""
+    client = QdrantClient(url=settings.qdrant_url, trust_env=False)
+    try:
+        return client.collection_exists(settings.collection_name)
+    finally:
+        client.close()
+
+
 def format_docs_with_sources(docs: list[Document]) -> str:
     """Склеить топ-k чанков в нумерованный context-блок для prompt'а LLM."""
     lines = []
@@ -80,15 +88,6 @@ def build_rag_chain():
 
     llm = get_llm()
 
-    chain = (
-        {
-            "context": retriever
-            | RunnableLambda(format_docs_with_sources),
-            "question": RunnablePassthrough(),
-        }
-        | PROMPT
-        | llm
-        | StrOutputParser()
-    )
+    chain = PROMPT | llm | StrOutputParser()
 
     return chain, retriever
