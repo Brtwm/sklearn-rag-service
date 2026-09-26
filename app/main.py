@@ -1,14 +1,16 @@
 import time
 from contextlib import asynccontextmanager
+from threading import Lock
 
 import gradio as gr
 from fastapi import FastAPI, HTTPException
 
-from app.rag.chain import build_rag_chain
+from app.rag.chain import build_rag_chain, format_docs_with_sources, index_available
 from app.schemas.chat import ChatRequest, ChatResponse, Source
 
 _chain = None
 _retriever = None
+_rag_lock = Lock()
 
 # LaTeX delimiters для Gradio Chatbot. LLM-ответы про Ridge, Lasso, метрики
 # содержат формулы $$..$$ / \[..\] / $..$ — без этого блока они отрисуются
@@ -23,11 +25,27 @@ LATEX_DELIMITERS = [
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _chain, _retriever
-    _chain, _retriever = build_rag_chain()
-    print("RAG chain ready")
+    _ensure_ready()
     yield
     _chain = None
     _retriever = None
+
+
+def _ensure_ready() -> bool:
+    global _chain, _retriever
+    with _rag_lock:
+        try:
+            if not index_available():
+                _chain = None
+                _retriever = None
+                return False
+            if _chain is None or _retriever is None:
+                _chain, _retriever = build_rag_chain()
+            return True
+        except Exception:
+            _chain = None
+            _retriever = None
+            return False
 
 
 app = FastAPI(title="RAG service", lifespan=lifespan)
@@ -36,11 +54,29 @@ app = FastAPI(title="RAG service", lifespan=lifespan)
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
+@app.get("/ready")
+def ready() -> dict[str, str]:
+    if not _ensure_ready():
+        raise HTTPException(status_code=503, detail="Active index unavailable")
+    return {"status": "ready"}
+
 @app.post("/chat", response_model=ChatResponse)
 def chat(payload: ChatRequest) -> ChatResponse:
-    docs = _retriever.invoke(payload.question)
+    if not _ensure_ready():
+        raise HTTPException(status_code=503, detail="Active index unavailable")
+    retriever, chain = _retriever, _chain
     try:
-        answer = _chain.invoke(payload.question)
+        docs = retriever.invoke(payload.question)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Retrieval temporarily unavailable. Raw: {type(exc).__name__}",
+        ) from exc
+    try:
+        answer = chain.invoke({
+            "question": payload.question,
+            "context": format_docs_with_sources(docs),
+        })
     except Exception as exc:
         raise HTTPException(
             status_code=503,
@@ -93,8 +129,20 @@ def respond(message: str, history: list):
 
     history = history + [{"role": "user", "content": message}]
 
+    if not _ensure_ready():
+        history.append({"role": "assistant", "content": "⚠️ Индекс пока недоступен. Попробуй позже."})
+        yield history, "", "### ⏱ Тайминги\n\n_Индекс недоступен_", "### 📚 Источники\n\n_—_"
+        return
+
+    retriever, chain = _retriever, _chain
+
     t0 = time.perf_counter()
-    docs = _retriever.invoke(message)
+    try:
+        docs = retriever.invoke(message)
+    except Exception as exc:
+        history.append({"role": "assistant", "content": f"⚠️ Поиск сейчас недоступен ({type(exc).__name__})."})
+        yield history, "", "### ⏱ Тайминги\n\n_Ошибка поиска_", "### 📚 Источники\n\n_—_"
+        return
     retrieval_ms = (time.perf_counter() - t0) * 1000
     sources_panel = _format_sources(docs)
 
@@ -112,7 +160,10 @@ def respond(message: str, history: list):
     ttft_ms: float | None = None
     accumulated = ""
     try:
-        for chunk in _chain.stream(message):
+        for chunk in chain.stream({
+            "question": message,
+            "context": format_docs_with_sources(docs),
+        }):
             if not chunk:
                 continue
             if ttft_ms is None:
@@ -127,7 +178,12 @@ def respond(message: str, history: list):
                 f"- 🤖 **LLM:** _streaming… {len(accumulated)} chars_",
                 sources_panel,
             )
-        
+
+        if ttft_ms is None:
+            history[-1]["content"] = "⚠️ LLM не вернула ответ. Попробуй ещё раз."
+            yield history, "", _format_timings(retrieval_ms, None, "empty response"), sources_panel
+            return
+
         llm_total_ms = (time.perf_counter() - t1) * 1000
         yield (
             history, "",
@@ -161,8 +217,6 @@ CSS = """
 with gr.Blocks(
     title="scikit-learn docs RAG",
     fill_height=True,
-    theme=gr.themes.Soft(),
-    css=CSS,
 ) as demo:
     gr.Markdown(
         "# 📖 scikit-learn docs RAG assistant\n"
@@ -172,9 +226,8 @@ with gr.Blocks(
         with gr.Column(scale=3):
             chatbot = gr.Chatbot(
                 elem_id="chatbot",
-                type="messages",
                 latex_delimiters=LATEX_DELIMITERS,
-                show_copy_button=True,
+                buttons=["copy"],
                 avatar_images=(None, None),
             )
             with gr.Row():
@@ -208,4 +261,6 @@ app = gr.mount_gradio_app(
     app,
     demo,
     path="/",
+    theme=gr.themes.Soft(),
+    css=CSS,
 )

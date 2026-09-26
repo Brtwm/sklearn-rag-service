@@ -221,3 +221,6 @@ __marimo__/
 qdrant_data/
 data/corpus_chunks.jsonl
 .gradio/flagged/
+
+# Local development roadmap
+/ROADMAP.md

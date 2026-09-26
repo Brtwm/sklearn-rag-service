@@ -9,7 +9,7 @@ pydantic-settings>=2.2
 
 # UI
 
-gradio>=5.0.0
+gradio==6.28.0
 
 
 # LangChain & LLM
