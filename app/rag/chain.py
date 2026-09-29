@@ -3,12 +3,12 @@
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
 from app.config import settings
 from app.llm import get_llm
+from app.rag.embeddings import get_embeddings
 
 
 SYSTEM_PROMPT = """You are a study assistant for the Classic ML cycle of an ML/DS course.
@@ -44,12 +44,7 @@ def get_vectorstore() -> QdrantVectorStore:
     """Поднять клиент Qdrant + эмбеддер и завернуть в LangChain-VectorStore."""
     client = QdrantClient(url=settings.qdrant_url, trust_env=False)
 
-    embeddings = HuggingFaceEmbeddings(
-        model_name=settings.embedding_model,
-        encode_kwargs={
-            "normalize_embeddings": settings.normalize_embeddings
-        },
-    )
+    embeddings = get_embeddings()
 
     return QdrantVectorStore(
         client=client,
