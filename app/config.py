@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -20,6 +22,7 @@ class Settings(BaseSettings):
     qdrant_url: str = "http://localhost:6333"
     collection_name: str = "sklearn_docs"
     top_k: int = 4
+    retrieval_mode: Literal["dense", "hybrid"] = "hybrid"
 
     # Embeddings (e5 — мультиязычный, нужно для русского)
     embedding_model: str = "intfloat/multilingual-e5-small"

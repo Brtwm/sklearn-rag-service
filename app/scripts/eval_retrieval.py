@@ -14,7 +14,7 @@ from app.scripts.index_corpus import corpus_collection_name
 
 CHUNKS_PATH = Path("data/corpus_chunks.jsonl")
 QUESTIONS_PATH = Path("data/eval/retrieval_questions_v1.json")
-REPORT_PATH = Path("notebooks/retrieval_baseline_v1.json")
+REPORT_PATH = Path("notebooks/retrieval_dense_v2.json")
 TOP_K = 4
 
 

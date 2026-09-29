@@ -279,9 +279,7 @@ def test_gradio_reports_empty_llm_stream(mock_rag_chain) -> None:
 def test_generation_chain_does_not_repeat_retrieval() -> None:
     retrieval_calls = []
     retriever = RunnableLambda(lambda question: retrieval_calls.append(question) or [])
-    vectorstore = MagicMock()
-    vectorstore.as_retriever.return_value = retriever
-    with patch("app.rag.chain.get_vectorstore", return_value=vectorstore), patch(
+    with patch("app.rag.chain.get_retriever", return_value=retriever), patch(
         "app.rag.chain.get_llm", return_value=RunnableLambda(lambda prompt: "Answer [1].")
     ):
         chain, returned_retriever = build_rag_chain()
@@ -295,9 +293,10 @@ def test_generation_chain_does_not_repeat_retrieval() -> None:
 def test_index_availability_checks_active_collection() -> None:
     with patch.object(rag_chain.settings, "collection_name", "active_test_collection"), patch(
         "app.rag.chain.QdrantClient"
-    ) as client_class:
+    ) as client_class, patch("app.rag.chain.verify_index_schema") as verify:
         client_class.return_value.collection_exists.return_value = True
         assert rag_chain.index_available() is True
 
     client_class.return_value.collection_exists.assert_called_once_with("active_test_collection")
+    verify.assert_called_once_with(client_class.return_value, "active_test_collection")
     client_class.return_value.close.assert_called_once_with()
