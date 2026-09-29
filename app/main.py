@@ -99,7 +99,7 @@ def _format_timings(retrieval_ms: float, llm_ms: float | None, llm_error: str | 
     lines = [
         "### ⏱ Тайминги последнего запроса",
         "",
-        f"- 🔍 **Retrieval (embed + Qdrant):** {retrieval_ms:.0f} ms",
+        f"- 🔍 **Retrieval:** {retrieval_ms:.0f} ms",
     ]
     if llm_ms is not None:
         lines.append(f"- 🤖 **LLM call:** {llm_ms:.0f} ms")

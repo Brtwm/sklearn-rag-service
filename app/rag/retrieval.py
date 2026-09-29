@@ -5,6 +5,7 @@ from langchain_core.embeddings import Embeddings
 from qdrant_client import QdrantClient, models
 
 from app.config import settings
+from app.rag.reranker import CrossEncoderReranker
 
 DENSE_VECTOR = "dense"
 SPARSE_VECTOR = "bm25"
@@ -62,18 +63,21 @@ class CorpusRetriever:
 
     def __init__(
         self, client: QdrantClient, collection_name: str, embeddings: Embeddings,
-        mode: str, top_k: int,
+        mode: str, top_k: int, reranker: CrossEncoderReranker | None = None,
     ) -> None:
-        if mode not in {"dense", "hybrid"}:
+        if mode not in {"dense", "hybrid", "hybrid_rerank"}:
             raise ValueError(f"Unknown retrieval mode: {mode}")
+        if mode == "hybrid_rerank" and reranker is None:
+            raise ValueError("hybrid_rerank requires a loaded reranker")
         self.client = client
         self.collection_name = collection_name
         self.embeddings = embeddings
         self.mode = mode
         self.top_k = top_k
+        self.reranker = reranker
 
     def search_with_score(self, question: str, limit: int) -> list[tuple[Document, float]]:
-        """Search named vectors; preserve the server's order and point IDs."""
+        """Retrieve and optionally rerank, cutting to limit after scoring."""
         dense = self.embeddings.embed_query(question)
         if self.mode == "dense":
             result = self.client.query_points(
@@ -91,7 +95,8 @@ class CorpusRetriever:
                     ),
                 ],
                 query=models.FusionQuery(fusion=models.Fusion.RRF),
-                limit=limit, with_payload=True,
+                limit=2 * CANDIDATES_PER_SEARCH if self.mode == "hybrid_rerank" else limit,
+                with_payload=True,
             )
         hits = []
         seen = set()
@@ -104,8 +109,10 @@ class CorpusRetriever:
                 id=point_id, page_content=point.payload["page_content"],
                 metadata=point.payload["metadata"],
             ), float(point.score)))
+        if self.mode == "hybrid_rerank":
+            return self.reranker.rerank(question, [doc for doc, _ in hits])[:limit]
         return hits
 
     def invoke(self, question: str) -> list[Document]:
-        limit = self.top_k if self.mode == "dense" else 2 * CANDIDATES_PER_SEARCH
+        limit = 2 * CANDIDATES_PER_SEARCH if self.mode == "hybrid" else self.top_k
         return [doc for doc, _ in self.search_with_score(question, limit)[:self.top_k]]

@@ -9,6 +9,7 @@ from qdrant_client import QdrantClient
 from app.config import settings
 from app.llm import get_llm
 from app.rag.embeddings import get_embeddings
+from app.rag.reranker import get_reranker
 from app.rag.retrieval import DENSE_VECTOR, CorpusRetriever, verify_index_schema
 
 
@@ -75,9 +76,10 @@ def get_retriever() -> CorpusRetriever:
     client = QdrantClient(url=settings.qdrant_url, trust_env=False, cloud_inference=True)
     try:
         verify_index_schema(client, settings.collection_name)
+        reranker = get_reranker() if settings.retrieval_mode == "hybrid_rerank" else None
         return CorpusRetriever(
             client, settings.collection_name, get_embeddings(),
-            settings.retrieval_mode, settings.top_k,
+            settings.retrieval_mode, settings.top_k, reranker=reranker,
         )
     except Exception:
         client.close()
