@@ -1,0 +1,1091 @@
+{
+  "corpus_sha256": "e52561b2d50a3bfe58deb484747e8b922152d1b2984daac0cd19e4bfe1d9430e",
+  "collection": "sklearn_docs_e52561b2d50a",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "top_k": 4,
+  "summary": {
+    "covered": {
+      "n_questions": 24,
+      "recall_at_4": 0.8541666666666666,
+      "mrr_at_4": 0.8020833333333334
+    },
+    "by_language": {
+      "en": {
+        "n_questions": 12,
+        "recall_at_4": 0.9583333333333334,
+        "mrr_at_4": 0.8541666666666666
+      },
+      "ru": {
+        "n_questions": 12,
+        "recall_at_4": 0.75,
+        "mrr_at_4": 0.75
+      }
+    },
+    "by_category": {
+      "single": {
+        "n_questions": 20,
+        "recall_at_4": 0.9,
+        "mrr_at_4": 0.7875
+      },
+      "two_part": {
+        "n_questions": 4,
+        "recall_at_4": 0.625,
+        "mrr_at_4": 0.875,
+        "complete_at_4": 0.25
+      }
+    },
+    "out_of_corpus": {
+      "n_questions": 6
+    }
+  },
+  "questions": [
+    {
+      "id": "en-01",
+      "language": "en",
+      "category": "single",
+      "question": "How does the alpha parameter in Ridge regression control coefficient shrinkage?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/linear_model.html#regression"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#regression",
+          "score": 0.90163004
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#setting-the-regularization-parameter-leave-one-out-cross-validation",
+          "score": 0.8779186
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#bayesian-ridge-regression",
+          "score": 0.86822295
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#regression",
+          "score": 0.8654591
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-02",
+      "language": "en",
+      "category": "single",
+      "question": "How does min_samples_leaf affect overfitting in DecisionTreeClassifier?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/tree.html#tips-on-practical-use"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#tips-on-practical-use",
+          "score": 0.9230362
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#tips-on-practical-use",
+          "score": 0.90482575
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#decision-trees",
+          "score": 0.899414
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#tips-on-practical-use",
+          "score": 0.88995063
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-03",
+      "language": "en",
+      "category": "single",
+      "question": "How do precision_score and recall_score differ for binary classification?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/model_evaluation.html#precision-recall-and-f-measures"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#binary-classification",
+          "score": 0.89052266
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#binary-classification",
+          "score": 0.8871796
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#classification-metrics",
+          "score": 0.88601
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#precision-recall-and-f-measures",
+          "score": 0.88522875
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 0.25,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-04",
+      "language": "en",
+      "category": "single",
+      "question": "How do bootstrap samples and max_features introduce randomness in RandomForestClassifier?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/ensemble.html#random-forests"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#parameters",
+          "score": 0.9127697
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#random-forests",
+          "score": 0.90646446
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#parameters",
+          "score": 0.89303136
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#parameters",
+          "score": 0.89258695
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 0.5,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-05",
+      "language": "en",
+      "category": "single",
+      "question": "What does cross_validate return when scoring specifies multiple metrics?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/cross_validation.html#the-cross-validate-function-and-multiple-metric-evaluation"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#the-cross-validate-function-and-multiple-metric-evaluation",
+          "score": 0.91731554
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#the-cross-validate-function-and-multiple-metric-evaluation",
+          "score": 0.90544575
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#the-cross-validate-function-and-multiple-metric-evaluation",
+          "score": 0.9035988
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#the-cross-validate-function-and-multiple-metric-evaluation",
+          "score": 0.90193546
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-06",
+      "language": "en",
+      "category": "single",
+      "question": "What does StandardScaler do to the mean and variance of each feature?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling",
+          "score": 0.8868384
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling",
+          "score": 0.8857169
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#scaling-features-to-a-range",
+          "score": 0.87594926
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling",
+          "score": 0.8739835
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-07",
+      "language": "en",
+      "category": "single",
+      "question": "How do I access a fitted transformer's attributes through Pipeline.named_steps?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#access-pipeline-steps"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#tracking-feature-names-in-a-pipeline",
+          "score": 0.8982458
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#access-pipeline-steps",
+          "score": 0.89322484
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.8887302
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#tracking-feature-names-in-a-pipeline",
+          "score": 0.88836324
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 0.5,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-08",
+      "language": "en",
+      "category": "single",
+      "question": "How can I inspect cv_results_ from HalvingGridSearchCV?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/grid_search.html#analyzing-results-with-the-cv-results-attribute"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#analyzing-results-with-the-cv-results-attribute",
+          "score": 0.9164994
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.8906342
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.8858237
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.8845032
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-09",
+      "language": "en",
+      "category": "single",
+      "question": "Which SimpleImputer strategies fill missing values using column statistics?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+          "score": 0.90415454
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+          "score": 0.8920442
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+          "score": 0.8871031
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#marking-imputed-values",
+          "score": 0.8754176
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-10",
+      "language": "en",
+      "category": "single",
+      "question": "How does RFE recursively remove features using an estimator's weights?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/feature_selection.html#recursive-feature-elimination"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#recursive-feature-elimination",
+          "score": 0.92439437
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#recursive-feature-elimination",
+          "score": 0.8909379
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling",
+          "score": 0.8586601
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#multivariate-feature-imputation",
+          "score": 0.8565911
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "en-11",
+      "language": "en",
+      "category": "two_part",
+      "question": "How can Pipeline cache fitted transformers, and how does RandomizedSearchCV control the number of sampled parameter settings?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+        "https://scikit-learn.org/1.9/modules/grid_search.html#randomized-parameter-optimization"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.9095688
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.89450204
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.89359903
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.8930092
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 0.5,
+        "mrr_at_4": 1.0,
+        "complete_at_4": false
+      }
+    },
+    {
+      "id": "en-12",
+      "language": "en",
+      "category": "two_part",
+      "question": "How does StratifiedKFold preserve class proportions, and what does balanced_accuracy_score measure?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/cross_validation.html#stratified-k-fold",
+        "https://scikit-learn.org/1.9/modules/model_evaluation.html#balanced-accuracy-score"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#stratified-k-fold",
+          "score": 0.8980414
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#stratified-k-fold",
+          "score": 0.89283276
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#stratifiedgroupkfold",
+          "score": 0.89090514
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#balanced-accuracy-score",
+          "score": 0.88952076
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-01",
+      "language": "ru",
+      "category": "single",
+      "question": "Как Lasso зануляет коэффициенты и чем управляет alpha?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/linear_model.html#lasso"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#lars-lasso",
+          "score": 0.8268144
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#lasso",
+          "score": 0.8241298
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#using-cross-validation",
+          "score": 0.8229021
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#lasso",
+          "score": 0.821617
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 0.5,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-02",
+      "language": "ru",
+      "category": "single",
+      "question": "Как параметр ccp_alpha обрезает дерево DecisionTreeClassifier?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/tree.html#minimal-cost-complexity-pruning"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#classification",
+          "score": 0.8562192
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#tips-on-practical-use",
+          "score": 0.85226595
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#classification",
+          "score": 0.8512163
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#classification",
+          "score": 0.84715766
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 0.0,
+        "mrr_at_4": 0.0,
+        "complete_at_4": false
+      }
+    },
+    {
+      "id": "ru-03",
+      "language": "ru",
+      "category": "single",
+      "question": "Как make_scorer превращает метрику в оценщик для параметра scoring?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/model_evaluation.html#adapting-predefined-metrics-via-make-scorer"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#adapting-predefined-metrics-via-make-scorer",
+          "score": 0.87506676
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#creating-a-custom-scorer-object",
+          "score": 0.8680086
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#adapting-predefined-metrics-via-make-scorer",
+          "score": 0.8634176
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#adapting-predefined-metrics-via-make-scorer",
+          "score": 0.8619933
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-04",
+      "language": "ru",
+      "category": "single",
+      "question": "Как HistGradientBoostingClassifier обрабатывает пропуски NaN при обучении и прогнозе?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/ensemble.html#missing-values-support"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#missing-values-support",
+          "score": 0.85813785
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#gradientboostingclassifier-and-gradientboostingregressor",
+          "score": 0.84661907
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#usage",
+          "score": 0.844138
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#why-it-s-faster",
+          "score": 0.84395736
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-05",
+      "language": "ru",
+      "category": "single",
+      "question": "Как TimeSeriesSplit формирует обучающие и тестовые блоки временного ряда?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/cross_validation.html#time-series-split"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#time-series-split",
+          "score": 0.8434237
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#time-series-split",
+          "score": 0.839812
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#cross-validation-of-time-series-data",
+          "score": 0.82425165
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/cross_validation.html#random-permutations-cross-validation-a-k-a-shuffle-split",
+          "score": 0.82015264
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-06",
+      "language": "ru",
+      "category": "single",
+      "question": "Как OneHotEncoder с handle_unknown обрабатывает новые категории при преобразовании?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/preprocessing.html#encoding-categorical-features"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#encoding-categorical-features",
+          "score": 0.8749074
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#infrequent-categories",
+          "score": 0.8642137
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#encoding-categorical-features",
+          "score": 0.8615129
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#encoding-categorical-features",
+          "score": 0.86057144
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-07",
+      "language": "ru",
+      "category": "single",
+      "question": "Как ColumnTransformer применяет разные преобразования к числовым и категориальным столбцам?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data",
+          "score": 0.8533703
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data",
+          "score": 0.85211164
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data",
+          "score": 0.84619814
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data",
+          "score": 0.8448292
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-08",
+      "language": "ru",
+      "category": "single",
+      "question": "Как RandomizedSearchCV использует n_iter при случайном подборе гиперпараметров?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/grid_search.html#randomized-parameter-optimization"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.8539003
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#tuning-the-hyper-parameters-of-an-estimator",
+          "score": 0.8535062
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.8500511
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.84865886
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 0.0,
+        "mrr_at_4": 0.0,
+        "complete_at_4": false
+      }
+    },
+    {
+      "id": "ru-09",
+      "language": "ru",
+      "category": "single",
+      "question": "Как KNNImputer с параметром n_neighbors заполняет пропущенные значения?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/impute.html#nearest-neighbors-imputation"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#nearest-neighbors-imputation",
+          "score": 0.87396276
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#nearest-neighbors-imputation",
+          "score": 0.86328095
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#estimators-that-handle-nan-values",
+          "score": 0.8301691
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#stacked-generalization",
+          "score": 0.8222135
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-10",
+      "language": "ru",
+      "category": "single",
+      "question": "Как SelectFromModel выбирает признаки по коэффициентам или feature_importances_?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/feature_selection.html#feature-selection-using-selectfrommodel"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#feature-selection-using-selectfrommodel",
+          "score": 0.890662
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#tree-based-feature-selection",
+          "score": 0.8781481
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#sequential-feature-selection",
+          "score": 0.86934704
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#l1-based-feature-selection",
+          "score": 0.86923915
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 1.0,
+        "mrr_at_4": 1.0,
+        "complete_at_4": true
+      }
+    },
+    {
+      "id": "ru-11",
+      "language": "ru",
+      "category": "two_part",
+      "question": "Как SimpleImputer заполняет пропуски средним и как StandardScaler стандартизирует признаки?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+        "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#estimators-that-handle-nan-values",
+          "score": 0.82940906
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+          "score": 0.8280551
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+          "score": 0.8238421
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#marking-imputed-values",
+          "score": 0.8212471
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 0.5,
+        "mrr_at_4": 0.5,
+        "complete_at_4": false
+      }
+    },
+    {
+      "id": "ru-12",
+      "language": "ru",
+      "category": "two_part",
+      "question": "Как SelectKBest оставляет k признаков и как подобрать это k через GridSearchCV внутри Pipeline?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/feature_selection.html#univariate-feature-selection",
+        "https://scikit-learn.org/1.9/modules/grid_search.html#composite-estimators-and-parameter-spaces"
+      ],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#composite-estimators-and-parameter-spaces",
+          "score": 0.87112164
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#tracking-feature-names-in-a-pipeline",
+          "score": 0.8664359
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#access-to-nested-parameters",
+          "score": 0.86492443
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#feature-selection-as-part-of-a-pipeline",
+          "score": 0.85482645
+        }
+      ],
+      "metrics": {
+        "recall_at_4": 0.5,
+        "mrr_at_4": 1.0,
+        "complete_at_4": false
+      }
+    },
+    {
+      "id": "ooc-en-01",
+      "language": "en",
+      "category": "out_of_corpus",
+      "question": "How does PCA.singular_values_ relate to explained variance in the PCA user guide?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#scaling-data-with-outliers",
+          "score": 0.8641473
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+          "score": 0.84520066
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#explained-variance-score",
+          "score": 0.84434205
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/feature_selection.html#removing-features-with-low-variance",
+          "score": 0.8442843
+        }
+      ],
+      "metrics": null
+    },
+    {
+      "id": "ooc-en-02",
+      "language": "en",
+      "category": "out_of_corpus",
+      "question": "What does the gamma parameter of an RBF SVC kernel control?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#dummy-estimators",
+          "score": 0.8487737
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#randomized-parameter-optimization",
+          "score": 0.8290871
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#tuning-the-hyper-parameters-of-an-estimator",
+          "score": 0.8258352
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#tuning-the-hyper-parameters-of-an-estimator",
+          "score": 0.8249413
+        }
+      ],
+      "metrics": null
+    },
+    {
+      "id": "ooc-en-03",
+      "language": "en",
+      "category": "out_of_corpus",
+      "question": "How does KMeans choose centroids with the k-means++ initialization algorithm?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#centering-kernel-matrices",
+          "score": 0.85429555
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#centering-kernel-matrices",
+          "score": 0.84147036
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#centering-kernel-matrices",
+          "score": 0.8412787
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/preprocessing.html#centering-kernel-matrices",
+          "score": 0.83677006
+        }
+      ],
+      "metrics": null
+    },
+    {
+      "id": "ooc-ru-01",
+      "language": "ru",
+      "category": "out_of_corpus",
+      "question": "Как параметр eps влияет на поиск кластеров в DBSCAN?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#searching-for-optimal-parameters-with-successive-halving",
+          "score": 0.81032455
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/impute.html#estimators-that-handle-nan-values",
+          "score": 0.81032085
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#class-likelihood-ratios",
+          "score": 0.8089534
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/grid_search.html#tuning-the-hyper-parameters-of-an-estimator",
+          "score": 0.8077853
+        }
+      ],
+      "metrics": null
+    },
+    {
+      "id": "ooc-ru-02",
+      "language": "ru",
+      "category": "out_of_corpus",
+      "question": "Как hidden_layer_sizes задаёт архитектуру нейросети MLPClassifier?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#differences-between-solvers",
+          "score": 0.81116366
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#differences-between-solvers",
+          "score": 0.8082533
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/model_evaluation.html#hinge-loss",
+          "score": 0.8074229
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/tree.html#classification",
+          "score": 0.8067131
+        }
+      ],
+      "metrics": null
+    },
+    {
+      "id": "ooc-ru-03",
+      "language": "ru",
+      "category": "out_of_corpus",
+      "question": "Как параметр alpha сглаживает вероятности в MultinomialNB?",
+      "expected_urls": [],
+      "top_4": [
+        {
+          "rank": 1,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#bayesian-ridge-regression",
+          "score": 0.8144958
+        },
+        {
+          "rank": 2,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#multinomial-case",
+          "score": 0.81413007
+        },
+        {
+          "rank": 3,
+          "url": "https://scikit-learn.org/1.9/modules/linear_model.html#differences-between-solvers",
+          "score": 0.81026834
+        },
+        {
+          "rank": 4,
+          "url": "https://scikit-learn.org/1.9/modules/ensemble.html#monotonic-constraints",
+          "score": 0.8085084
+        }
+      ],
+      "metrics": null
+    }
+  ]
+}
