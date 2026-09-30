@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     qdrant_url: str = "http://localhost:6333"
     collection_name: str = "sklearn_docs"
     top_k: int = 4
-    retrieval_mode: Literal["dense", "hybrid", "hybrid_rerank"] = "hybrid"
+    retrieval_mode: Literal["dense", "hybrid", "hybrid_rerank"] = "hybrid_rerank"
     reranker_model: str = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
 
     # Embeddings (e5 — мультиязычный, нужно для русского)
