@@ -9,6 +9,39 @@ from langchain_core.embeddings import Embeddings
 from qdrant_client import QdrantClient, models
 
 from app.scripts import index_corpus
+from app.rag import retrieval
+
+
+@pytest.fixture(autouse=True)
+def stub_server_bm25(monkeypatch):
+    """Local Qdrant tests use sparse fixtures instead of server text inference."""
+    upsert = QdrantClient.upsert
+    query = QdrantClient.query_points
+
+    def sparse(text):
+        return models.SparseVector(indices=[1], values=[float(len(text))])
+
+    def upsert_points(client, collection_name, points, **kwargs):
+        converted = []
+        for point in points:
+            vector = point.vector
+            if isinstance(vector, dict):
+                vector = {name: sparse(value.text) if isinstance(value, models.Document) else value
+                          for name, value in vector.items()}
+            converted.append(point.model_copy(update={"vector": vector}))
+        return upsert(client, collection_name, converted, **kwargs)
+
+    def query_points(client, *args, **kwargs):
+        if "prefetch" in kwargs:
+            kwargs["prefetch"] = [item.model_copy(update={"query": sparse(item.query.text)})
+                                  if isinstance(item.query, models.Document) else item
+                                  for item in kwargs["prefetch"]]
+        if isinstance(kwargs.get("query"), models.Document):
+            kwargs["query"] = sparse(kwargs["query"].text)
+        return query(client, *args, **kwargs)
+
+    monkeypatch.setattr(QdrantClient, "upsert", upsert_points)
+    monkeypatch.setattr(QdrantClient, "query_points", query_points)
 
 
 class SmallEmbeddings(Embeddings):
@@ -44,7 +77,9 @@ def sample_chunks() -> list[Document]:
 
 def create_collection(client: QdrantClient, name: str) -> None:
     client.create_collection(
-        name, vectors_config=models.VectorParams(size=3, distance=models.Distance.COSINE),
+        name, vectors_config={"dense": models.VectorParams(size=3, distance=models.Distance.COSINE)},
+        sparse_vectors_config={"bm25": models.SparseVectorParams(modifier=models.Modifier.IDF)},
+        metadata={"index_signature": retrieval.index_signature(3)},
     )
 
 
@@ -124,7 +159,9 @@ def test_index_chunks_switches_alias_after_verification_and_keeps_old_collection
 
     assert alias_target(client) == "new_collection"
     assert client.collection_exists("old_collection")
-    points, _ = client.scroll("new_collection", limit=10, with_payload=True)
+    points, _ = client.scroll("new_collection", limit=10, with_payload=True, with_vectors=True)
+    assert all(set(point.vector) == {"dense", "bm25"} for point in points)
+    retrieval.verify_index_schema(client, "new_collection", 3)
     assert {str(point.id) for point in points} == {str(UUID(doc.id)) for doc in chunks}
     assert {point.payload["metadata"]["source"] for point in points} == {
         doc.metadata["source"] for doc in chunks
@@ -154,7 +191,7 @@ def test_index_chunks_keeps_alias_when_verification_fails() -> None:
     client.upsert("new_collection", points=[
         models.PointStruct(
             id="ac5575c0-032b-4cd1-b71c-6eb8849d9113",
-            vector=[1.0, 0.0, 0.0],
+            vector={"dense": [1.0, 0.0, 0.0], "bm25": models.SparseVector(indices=[1], values=[1.0])},
             payload={"page_content": "stray", "metadata": {"source": "wrong"}},
         ),
     ])
@@ -184,3 +221,51 @@ def test_index_chunks_refuses_physical_collection_named_like_alias() -> None:
 
     assert not client.collection_exists("new_collection")
     assert client.collection_exists("sklearn_docs")
+
+
+def test_index_chunks_keeps_alias_when_embedding_fails() -> None:
+    client = QdrantClient(":memory:")
+    create_collection(client, "old_collection")
+    client.update_collection_aliases([
+        models.CreateAliasOperation(create_alias=models.CreateAlias(
+            collection_name="old_collection", alias_name="sklearn_docs",
+        )),
+    ])
+    with pytest.raises(RuntimeError, match="Embeddings unavailable"):
+        index_corpus.index_chunks(client, sample_chunks(), FailingEmbeddings(), "new", "sklearn_docs", 3)
+    assert alias_target(client) == "old_collection"
+
+
+def test_verify_collection_rejects_missing_sparse_vector() -> None:
+    client = QdrantClient(":memory:")
+    create_collection(client, "incomplete")
+    client.upsert("incomplete", [models.PointStruct(
+        id=doc.id, vector={"dense": [1.0, 0.0, 0.0]},
+        payload={"page_content": doc.page_content, "metadata": doc.metadata},
+    ) for doc in sample_chunks()])
+    with pytest.raises(RuntimeError, match="vector"):
+        index_corpus.verify_collection(client, sample_chunks(), "incomplete", 3)
+
+
+def test_index_chunks_keeps_alias_when_sanity_search_fails() -> None:
+    client = QdrantClient(":memory:")
+    create_collection(client, "old_collection")
+    client.update_collection_aliases([
+        models.CreateAliasOperation(create_alias=models.CreateAlias(
+            collection_name="old_collection", alias_name="sklearn_docs",
+        )),
+    ])
+    with patch("app.scripts.index_corpus.CorpusRetriever") as search:
+        search.return_value.invoke.return_value = []
+        with pytest.raises(RuntimeError, match="Sanity"):
+            index_corpus.index_chunks(client, sample_chunks(), SmallEmbeddings(), "new", "sklearn_docs", 3)
+    assert alias_target(client) == "old_collection"
+
+
+def test_indexing_uses_same_server_bm25_options_as_query() -> None:
+    client = QdrantClient(":memory:")
+    with patch.object(client, "upsert", wraps=client.upsert) as upsert:
+        index_corpus.index_chunks(client, sample_chunks(), SmallEmbeddings(), "new", "sklearn_docs", 3)
+    points = upsert.call_args.kwargs["points"]
+    for point, doc in zip(points, sample_chunks()):
+        assert point.vector["bm25"] == retrieval.bm25_document(doc.page_content)
