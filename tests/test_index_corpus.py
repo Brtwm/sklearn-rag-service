@@ -269,3 +269,31 @@ def test_indexing_uses_same_server_bm25_options_as_query() -> None:
     points = upsert.call_args.kwargs["points"]
     for point, doc in zip(points, sample_chunks()):
         assert point.vector["bm25"] == retrieval.bm25_document(doc.page_content)
+
+
+def test_experimental_index_keeps_alias_and_reuses_verified_collection() -> None:
+    client = QdrantClient(":memory:")
+    chunks = sample_chunks()
+    index_corpus.index_chunks(client, chunks, SmallEmbeddings(), "small", "sklearn_docs", 3)
+    with patch.object(client, "update_collection_aliases", wraps=client.update_collection_aliases) as activate:
+        index_corpus.index_chunks(
+            client, chunks, SmallEmbeddings(), "large", "sklearn_docs", 3, activate_alias=False,
+        )
+        index_corpus.index_chunks(
+            client, chunks, FailingEmbeddings(), "large", "sklearn_docs", 3, activate_alias=False,
+        )
+    activate.assert_not_called()
+    assert alias_target(client) == "small"
+    index_corpus.verify_collection(client, chunks, "large", 3)
+
+
+def test_experimental_index_rejects_incomplete_existing_collection_without_upsert() -> None:
+    client = QdrantClient(":memory:")
+    create_collection(client, "incomplete")
+    with patch.object(client, "upsert") as upsert:
+        with pytest.raises(RuntimeError, match="count"):
+            index_corpus.index_chunks(
+                client, sample_chunks(), SmallEmbeddings(), "incomplete", "sklearn_docs", 3,
+                activate_alias=False,
+            )
+    upsert.assert_not_called()

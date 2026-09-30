@@ -5,9 +5,10 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from app.config import settings
 
 
-def get_embeddings() -> HuggingFaceEmbeddings:
+def get_embeddings(*, device: str | None = None) -> HuggingFaceEmbeddings:
     return HuggingFaceEmbeddings(
         model_name=settings.embedding_model,
+        **({"model_kwargs": {"device": device}} if device is not None else {}),
         encode_kwargs={
             "normalize_embeddings": settings.normalize_embeddings,
             "prompt": "passage: ",

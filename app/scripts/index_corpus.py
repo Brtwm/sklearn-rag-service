@@ -1,5 +1,6 @@
 """Build and verify a new Qdrant collection before activating its alias."""
 
+import argparse
 import hashlib
 import json
 import math
@@ -111,14 +112,18 @@ def index_chunks(
     collection_name: str,
     alias_name: str,
     embedding_dim: int,
+    *,
+    activate_alias: bool = True,
 ) -> None:
-    """Upsert, verify, then atomically point the active alias at the new collection."""
+    """Build and verify an index, optionally activating its alias atomically."""
     aliases = {alias.alias_name: alias.collection_name for alias in client.get_aliases().aliases}
     if client.collection_exists(alias_name) and alias_name not in aliases:
         raise RuntimeError(f"{alias_name} is a physical collection; use the new Qdrant data directory")
-    if aliases.get(alias_name) == collection_name:
+    if aliases.get(alias_name) == collection_name or (
+        not activate_alias and client.collection_exists(collection_name)
+    ):
         verify_collection(client, chunks, collection_name, embedding_dim)
-        print(f"Already active: {alias_name} -> {collection_name}")
+        print(f"Already verified: {collection_name}")
         return
     if not client.collection_exists(collection_name):
         client.create_collection(
@@ -148,6 +153,9 @@ def index_chunks(
         }:
             raise RuntimeError(f"Sanity {mode} search did not return a corpus source")
 
+    if not activate_alias:
+        print(f"Verified {len(chunks)} chunks; {collection_name}; alias unchanged")
+        return
     if aliases.get(alias_name) != collection_name:
         operations = []
         if alias_name in aliases:
@@ -162,13 +170,18 @@ def index_chunks(
 
 def main() -> None:
     """Build the corpus collection and activate it only after verification."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--no-activate", action="store_true", help="Build/verify without changing any alias")
+    parser.add_argument("--device", choices=("cpu",), help="Force CPU for a reproducible experiment")
+    args = parser.parse_args()
     chunks = load_chunks(CHUNKS_PATH)
     collection_name = corpus_collection_name(CHUNKS_PATH, settings.collection_name)
     client = QdrantClient(url=settings.qdrant_url, trust_env=False, cloud_inference=True)
     try:
         index_chunks(
-            client, chunks, get_embeddings(), collection_name,
+            client, chunks, get_embeddings(device=args.device), collection_name,
             settings.collection_name, settings.embedding_dim,
+            activate_alias=not args.no_activate,
         )
     finally:
         client.close()
