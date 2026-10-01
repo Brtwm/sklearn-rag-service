@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnableLambda
 
-from app.main import app, respond
+from app.main import app, respond, _format_sources
 from app.rag import chain as rag_chain
 from app.rag.chain import build_rag_chain
 
@@ -201,15 +201,23 @@ def test_gradio_stream_uses_retrieved_context(mock_rag_chain) -> None:
         stream = respond("What is Ridge?", [])
         first = next(stream)
         assert first[0][-1]["content"] == ""
-        assert "_streaming…_" in first[2]
-        assert "https://example.org/ridge" in first[3]
+        assert "Проверка готовности" in first[2]
+        mock_retriever.invoke.assert_not_called()
+        searching = next(stream)
+        assert "Поиск" in searching[2]
+        mock_retriever.invoke.assert_not_called()
+        waiting = next(stream)
+        assert "Ожидание первого фрагмента" in waiting[2]
+        assert "https://example.org/ridge" in waiting[3]
         second = next(stream)
         assert second[0][-1]["content"] == "Ridge"
+        assert "Генерация" in second[2]
         events = list(stream)
 
     assert events[-1][0][-1]["content"] == "Ridge [1]"
-    assert "**LLM stream (full):**" in events[-1][2]
-    assert events[-1][3] == first[3]
+    assert "Завершено" in events[-1][2]
+    assert "Генерация LLM" in events[-1][2]
+    assert events[-1][3] == waiting[3]
     mock_retriever.invoke.assert_called_once_with("What is Ridge?")
     assert mock_chain.stream.call_args.args[0] == {
         "question": "What is Ridge?",
@@ -224,9 +232,9 @@ def test_gradio_reports_qdrant_search_failure(mock_rag_chain) -> None:
     with TestClient(app):
         events = list(respond("Ridge?", []))
 
-    assert len(events) == 1
-    assert "Поиск сейчас недоступен" in events[0][0][-1]["content"]
-    assert "_—_" in events[0][3]
+    assert len(events) == 3
+    assert "Поиск сейчас недоступен" in events[-1][0][-1]["content"]
+    assert "_—_" in events[-1][3]
     mock_chain.stream.assert_not_called()
 
 
@@ -236,8 +244,8 @@ def test_gradio_reports_missing_index(mock_rag_chain) -> None:
         with TestClient(app):
             events = list(respond("Ridge?", []))
 
-    assert len(events) == 1
-    assert "Индекс пока недоступен" in events[0][0][-1]["content"]
+    assert len(events) == 2
+    assert "Индекс пока недоступен" in events[-1][0][-1]["content"]
     mock_retriever.invoke.assert_not_called()
     mock_chain.stream.assert_not_called()
 
@@ -257,7 +265,9 @@ def test_gradio_reports_llm_failure_after_partial_answer(mock_rag_chain) -> None
         events = list(respond("Ridge?", []))
 
     assert "LLM-провайдер сейчас недоступен" in events[-1][0][-1]["content"]
-    assert "LLM stream (full)" not in events[-1][2]
+    assert events[-1][0][-1]["content"].startswith("Ridge\n\n")
+    assert "Ответ не завершён" in events[-1][0][-1]["content"]
+    assert "Ошибка" in events[-1][2]
     assert "https://example.org/ridge" in events[-1][3]
 
 
@@ -271,9 +281,63 @@ def test_gradio_reports_empty_llm_stream(mock_rag_chain) -> None:
     with TestClient(app):
         events = list(respond("Ridge?", []))
 
-    assert len(events) == 2
+    assert len(events) == 4
     assert "LLM не вернула ответ" in events[-1][0][-1]["content"]
     assert "https://example.org/ridge" in events[-1][3]
+
+
+def test_gradio_first_event_precedes_readiness_check(mock_rag_chain) -> None:
+    with patch("app.main._ensure_ready", side_effect=AssertionError("too early")):
+        stream = respond("Ridge?", [])
+        event = next(stream)
+        assert "Проверка готовности" in event[2]
+        stream.close()
+
+
+def test_gradio_timings_include_readiness_and_separate_first_fragment(mock_rag_chain) -> None:
+    chain, retriever = mock_rag_chain
+    retriever.invoke.return_value = []
+    chain.stream.return_value = iter(["Answer"])
+    with TestClient(app):
+        with patch("app.main.time.perf_counter", side_effect=[0, 1, 3, 4, 5, 7]):
+            events = list(respond("Ridge?", []))
+    timing = events[-1][2]
+    assert "**Поиск:** 2000 мс" in timing
+    assert "**Первый фрагмент LLM:** 1000 мс" in timing
+    assert "**Генерация LLM:** 2000 мс" in timing
+    assert "**Всего:** 7000 мс" in timing
+
+
+def test_gradio_sources_link_titles_and_preserve_chunk_numbers() -> None:
+    docs = [
+        Document(page_content="First passage", metadata={
+            "title": "Ridge regression", "source": "https://example.org/linear#ridge",
+        }),
+        Document(page_content="Second passage", metadata={
+            "title": "Ridge regression", "source": "https://example.org/linear#ridge",
+        }),
+        Document(page_content="About passage", metadata={
+            "title": "About", "source": "local://about.md",
+        }),
+        Document(page_content="Fallback", metadata={"source": "https://example.org/tree#pruning"}),
+    ]
+    panel = _format_sources(docs)
+    assert "**[1]** [Ridge regression](<https://example.org/linear#ridge>)" in panel
+    assert "**[2]** [Ridge regression](<https://example.org/linear#ridge>)" in panel
+    assert "**[3]** About" in panel
+    assert "](<local:" not in panel
+    assert "**[4]** [https://example.org/tree#pruning](<https://example.org/tree#pruning>)" in panel
+    assert "First passage" in panel and "Second passage" in panel
+
+
+def test_gradio_sources_escape_markup_and_do_not_link_non_web_sources() -> None:
+    docs = [Document(page_content="<script>alert(1)</script>", metadata={
+        "title": "[Example] <b>title</b>", "source": "javascript:alert(1)",
+    })]
+    panel = _format_sources(docs)
+    assert "\\[Example\\]" in panel
+    assert "<b>" not in panel and "<script>" not in panel
+    assert "](<javascript:" not in panel
 
 
 def test_generation_chain_does_not_repeat_retrieval() -> None:

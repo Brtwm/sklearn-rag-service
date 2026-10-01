@@ -1,0 +1,1165 @@
+{
+  "started_at_utc": "2026-09-30T18:01:55.934069+00:00",
+  "passed": true,
+  "scenario_sha256": "b78c5778804130024310248e3c016943ebf90f8c5992b4f14eb036b30e844f01",
+  "corpus_sha256": "e52561b2d50a3bfe58deb484747e8b922152d1b2984daac0cd19e4bfe1d9430e",
+  "questions_sha256": "f50e2afcdc1ca1292e07a6c9fca8248f45a76a95395407a8d4632dd031fa6957",
+  "questions": [
+    {
+      "id": "en-01",
+      "language": "en",
+      "category": "single",
+      "question": "How does the alpha parameter in Ridge regression control coefficient shrinkage?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/linear_model.html#regression"
+      ]
+    },
+    {
+      "id": "en-03",
+      "language": "en",
+      "category": "single",
+      "question": "How do precision_score and recall_score differ for binary classification?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/model_evaluation.html#precision-recall-and-f-measures"
+      ]
+    },
+    {
+      "id": "en-07",
+      "language": "en",
+      "category": "single",
+      "question": "How do I access a fitted transformer's attributes through Pipeline.named_steps?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#access-pipeline-steps"
+      ]
+    },
+    {
+      "id": "en-11",
+      "language": "en",
+      "category": "two_part",
+      "question": "How can Pipeline cache fitted transformers, and how does RandomizedSearchCV control the number of sampled parameter settings?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#caching-transformers-avoid-repeated-computation",
+        "https://scikit-learn.org/1.9/modules/grid_search.html#randomized-parameter-optimization"
+      ]
+    },
+    {
+      "id": "ru-01",
+      "language": "ru",
+      "category": "single",
+      "question": "Как Lasso зануляет коэффициенты и чем управляет alpha?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/linear_model.html#lasso"
+      ]
+    },
+    {
+      "id": "ru-06",
+      "language": "ru",
+      "category": "single",
+      "question": "Как OneHotEncoder с handle_unknown обрабатывает новые категории при преобразовании?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/preprocessing.html#encoding-categorical-features"
+      ]
+    },
+    {
+      "id": "ru-07",
+      "language": "ru",
+      "category": "single",
+      "question": "Как ColumnTransformer применяет разные преобразования к числовым и категориальным столбцам?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/compose.html#columntransformer-for-heterogeneous-data"
+      ]
+    },
+    {
+      "id": "ru-11",
+      "language": "ru",
+      "category": "two_part",
+      "question": "Как SimpleImputer заполняет пропуски средним и как StandardScaler стандартизирует признаки?",
+      "expected_urls": [
+        "https://scikit-learn.org/1.9/modules/impute.html#univariate-feature-imputation",
+        "https://scikit-learn.org/1.9/modules/preprocessing.html#standardization-or-mean-removal-and-variance-scaling"
+      ]
+    }
+  ],
+  "corpus_chunks": 704,
+  "mode": "hybrid_rerank",
+  "llm": {
+    "method": "local prompt echo; no provider client",
+    "external_calls": 0
+  },
+  "measurement": {
+    "repeats": 3,
+    "warmup_requests": 2,
+    "requests_per_repeat": 8,
+    "validation": "ordered chunk IDs from concurrency-1 pass-1 are the per-question reference for later REST passes and both Gradio sessions",
+    "latency": "HTTP /chat round trip, including readiness, retrieval and local stub",
+    "percentiles": "linear interpolation over all 24 measured requests per concurrency",
+    "memory": "OS peak full server RSS/working set from import/startup through REST and UI; excludes driver, Qdrant and indexing; CPU models; startup includes model downloads if the cache is cold"
+  },
+  "variants": {
+    "1": {
+      "concurrency": 1,
+      "service_startup_s": 63.75966350000817,
+      "endpoints": {
+        "/health": 200,
+        "/ready": 200,
+        "/": 200
+      },
+      "warmup": [
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 0,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2948.8164000067627
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 0,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 2262.6070999976946
+        }
+      ],
+      "summary": {
+        "requests": 24,
+        "successful": 24,
+        "errors": 0,
+        "p50_ms": 1956.8669000000227,
+        "p95_ms": 2382.794400006969
+      },
+      "runs": [
+        {
+          "repeat": 1,
+          "duration_s": 16.080273599989596,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 2001.7354500014335,
+          "p95_ms": 2424.0765050075424
+        },
+        {
+          "repeat": 2,
+          "duration_s": 15.816729199999827,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 1979.4031999990693,
+          "p95_ms": 2305.5088250017434
+        },
+        {
+          "repeat": 3,
+          "duration_s": 16.073841200006427,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 1950.3253500006394,
+          "p95_ms": 2338.0268300046737
+        }
+      ],
+      "requests": [
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2445.6364000070607
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 2043.9621999976225
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 1690.0885000068229
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 1786.075299998629
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 2152.463699996588
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 2384.036700008437
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 1959.5087000052445
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 1617.4510999990162
+        },
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2175.052200007485
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 1947.7919999917503
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 1725.7542000006652
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 1759.5698999939486
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 2011.0144000063883
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 2375.7546999986516
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 2139.5594000059646
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 1681.2585000006948
+        },
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2346.7510000045877
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 1954.225099994801
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 1728.3869000093546
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 1816.090799999074
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 2099.85919999599
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 2321.8248000048334
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 1946.425600006478
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 1859.2809999972815
+        }
+      ],
+      "runtime": {
+        "peak_memory_mib": 2327.92578125,
+        "peak_memory_bytes": 2441007104,
+        "python": "3.12.14",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "cpu_count": 20,
+        "torch_threads": 14,
+        "device": "cpu",
+        "collection": "sklearn_docs_e52561b2d50a_hybrid_b497cf557f46",
+        "embedding_model": "intfloat/multilingual-e5-small",
+        "index_signature": {
+          "schema_version": 1,
+          "embedding_model": "intfloat/multilingual-e5-small",
+          "embedding_dim": 384,
+          "normalize_embeddings": true,
+          "passage_prompt": "passage: ",
+          "query_prompt": "query: ",
+          "dense_vector": "dense",
+          "sparse_vector": "bm25",
+          "distance": "Cosine",
+          "bm25_model": "qdrant/bm25",
+          "bm25_options": {
+            "tokenizer": "word",
+            "lowercase": true,
+            "ascii_folding": false,
+            "stopwords": "english",
+            "stemmer": {
+              "type": "none"
+            },
+            "k": 1.2,
+            "b": 0.75,
+            "avg_len": 256
+          },
+          "sparse_modifier": "idf"
+        },
+        "reranker_batch_size": 8,
+        "reranker_max_length": 512,
+        "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "reranker_model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+        "reranker_revision": "1427fd652930e4ba29e8149678df786c240d8825",
+        "versions": {
+          "fastapi": "0.141.1",
+          "gradio": "6.28.0",
+          "gradio-client": "2.7.1",
+          "torch": "2.14.0+cpu",
+          "sentence-transformers": "6.0.1",
+          "qdrant-client": "1.19.1"
+        }
+      },
+      "ui_queue": {
+        "sessions": 2,
+        "requests": [
+          {
+            "id": "en-01",
+            "success": true,
+            "chunk_ids": [
+              "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+              "9810f2ed-42d6-5a74-8252-49dfe758f270",
+              "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+              "44558d84-3163-5e80-8def-79c060911cec"
+            ]
+          },
+          {
+            "id": "ru-01",
+            "success": true,
+            "chunk_ids": [
+              "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+              "3b7b2126-a6b0-5358-963a-00aee266b043",
+              "03cfcc51-bbfe-5798-9bec-132e5070f470",
+              "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+            ]
+          }
+        ],
+        "passed": true,
+        "observations": {
+          "active": 0,
+          "peak_active": 1,
+          "started": 2,
+          "finished": 2
+        }
+      },
+      "qdrant_memory": {
+        "container": "qdrant",
+        "memory_usage": "483.5MiB / 7.61GiB",
+        "method": "Docker memory usage snapshot; not a peak; separate from application RSS"
+      }
+    },
+    "4": {
+      "concurrency": 4,
+      "service_startup_s": 59.901679300004616,
+      "endpoints": {
+        "/health": 200,
+        "/ready": 200,
+        "/": 200
+      },
+      "warmup": [
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 0,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2113.864900005865
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 0,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 1912.4760999984574
+        }
+      ],
+      "summary": {
+        "requests": 24,
+        "successful": 24,
+        "errors": 0,
+        "p50_ms": 6895.390750003571,
+        "p95_ms": 7648.08778499646
+      },
+      "runs": [
+        {
+          "repeat": 1,
+          "duration_s": 13.809131300004083,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 6590.508850000333,
+          "p95_ms": 7048.779144998844
+        },
+        {
+          "repeat": 2,
+          "duration_s": 14.695311199990101,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 7109.269849992415,
+          "p95_ms": 7594.77254999656
+        },
+        {
+          "repeat": 3,
+          "duration_s": 14.828662500003702,
+          "requests": 8,
+          "successful": 8,
+          "errors": 0,
+          "p50_ms": 7170.398150003166,
+          "p95_ms": 7642.069015005109
+        }
+      ],
+      "requests": [
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2102.5264999916544
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 3743.4341000043787
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 6741.7559000023175
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 5303.033900010632
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 6439.261799998349
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 6846.76300000865
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 7019.025200002943
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 1,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 7064.800499996636
+        },
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2194.9634999909904
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 3960.213600003044
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 5573.345800003153
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 7244.204799993895
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 6974.334899990936
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 7474.6739999973215
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 7659.44099999615
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 2,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 7446.7738999956055
+        },
+        {
+          "id": "en-01",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+            "9810f2ed-42d6-5a74-8252-49dfe758f270",
+            "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+            "44558d84-3163-5e80-8def-79c060911cec"
+          ],
+          "latency_ms": 2371.513199992478
+        },
+        {
+          "id": "en-03",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "ac96d545-4044-5991-be4f-46fe929cb7d8",
+            "e1716a48-9535-55e2-93e9-4184053a9a2b",
+            "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+            "49045ae4-8f27-51e4-924d-860160ad96eb"
+          ],
+          "latency_ms": 7429.732300006435
+        },
+        {
+          "id": "en-07",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+            "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+            "3142877d-a3ee-513c-9908-e79c3b751cd1"
+          ],
+          "latency_ms": 3974.012299993774
+        },
+        {
+          "id": "en-11",
+          "language": "en",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "e5e272c1-c738-5016-9a49-a9253cd4f955",
+            "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+            "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+            "bb633dab-569f-53f7-b024-880a107ccb3a"
+          ],
+          "latency_ms": 5662.680699999328
+        },
+        {
+          "id": "ru-01",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+            "3b7b2126-a6b0-5358-963a-00aee266b043",
+            "03cfcc51-bbfe-5798-9bec-132e5070f470",
+            "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+          ],
+          "latency_ms": 6944.018499998492
+        },
+        {
+          "id": "ru-06",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+            "46e6839e-fe78-5e16-a6d3-ce488de15397",
+            "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+            "87e0598e-7251-58e5-934c-d059782f4fc3"
+          ],
+          "latency_ms": 7583.752899998217
+        },
+        {
+          "id": "ru-07",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+            "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+            "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+            "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+          ],
+          "latency_ms": 7673.47000000882
+        },
+        {
+          "id": "ru-11",
+          "language": "ru",
+          "repeat": 3,
+          "success": true,
+          "status_code": 200,
+          "chunk_ids": [
+            "507171bb-5604-539b-b847-6848ceade9c6",
+            "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+            "6a7e63b0-336a-592b-888b-158c889ec614",
+            "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+          ],
+          "latency_ms": 7396.77780000784
+        }
+      ],
+      "runtime": {
+        "peak_memory_mib": 2460.28125,
+        "peak_memory_bytes": 2579791872,
+        "python": "3.12.14",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "cpu_count": 20,
+        "torch_threads": 14,
+        "device": "cpu",
+        "collection": "sklearn_docs_e52561b2d50a_hybrid_b497cf557f46",
+        "embedding_model": "intfloat/multilingual-e5-small",
+        "index_signature": {
+          "schema_version": 1,
+          "embedding_model": "intfloat/multilingual-e5-small",
+          "embedding_dim": 384,
+          "normalize_embeddings": true,
+          "passage_prompt": "passage: ",
+          "query_prompt": "query: ",
+          "dense_vector": "dense",
+          "sparse_vector": "bm25",
+          "distance": "Cosine",
+          "bm25_model": "qdrant/bm25",
+          "bm25_options": {
+            "tokenizer": "word",
+            "lowercase": true,
+            "ascii_folding": false,
+            "stopwords": "english",
+            "stemmer": {
+              "type": "none"
+            },
+            "k": 1.2,
+            "b": 0.75,
+            "avg_len": 256
+          },
+          "sparse_modifier": "idf"
+        },
+        "reranker_batch_size": 8,
+        "reranker_max_length": 512,
+        "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "reranker_model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+        "reranker_revision": "1427fd652930e4ba29e8149678df786c240d8825",
+        "versions": {
+          "fastapi": "0.141.1",
+          "gradio": "6.28.0",
+          "gradio-client": "2.7.1",
+          "torch": "2.14.0+cpu",
+          "sentence-transformers": "6.0.1",
+          "qdrant-client": "1.19.1"
+        }
+      },
+      "ui_queue": {
+        "sessions": 2,
+        "requests": [
+          {
+            "id": "en-01",
+            "success": true,
+            "chunk_ids": [
+              "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+              "9810f2ed-42d6-5a74-8252-49dfe758f270",
+              "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+              "44558d84-3163-5e80-8def-79c060911cec"
+            ]
+          },
+          {
+            "id": "ru-01",
+            "success": true,
+            "chunk_ids": [
+              "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+              "3b7b2126-a6b0-5358-963a-00aee266b043",
+              "03cfcc51-bbfe-5798-9bec-132e5070f470",
+              "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+            ]
+          }
+        ],
+        "passed": true,
+        "observations": {
+          "active": 0,
+          "peak_active": 1,
+          "started": 2,
+          "finished": 2
+        }
+      },
+      "qdrant_memory": {
+        "container": "qdrant",
+        "memory_usage": "484.7MiB / 7.61GiB",
+        "method": "Docker memory usage snapshot; not a peak; separate from application RSS"
+      }
+    }
+  },
+  "qdrant_version": "1.19.1",
+  "active_alias": {
+    "name": "sklearn_docs",
+    "collection": "sklearn_docs_e52561b2d50a_hybrid_b497cf557f46",
+    "unchanged": true
+  },
+  "reference_chunk_ids": {
+    "en-01": [
+      "1325d15a-23ae-5761-9fc5-3bcfb2b84dde",
+      "9810f2ed-42d6-5a74-8252-49dfe758f270",
+      "7f197bac-6685-5f0c-9217-d1e2eb1635af",
+      "44558d84-3163-5e80-8def-79c060911cec"
+    ],
+    "en-03": [
+      "ac96d545-4044-5991-be4f-46fe929cb7d8",
+      "e1716a48-9535-55e2-93e9-4184053a9a2b",
+      "0a4817ff-1822-5f00-ac81-f34ed9933e04",
+      "49045ae4-8f27-51e4-924d-860160ad96eb"
+    ],
+    "en-07": [
+      "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+      "c0ad5be2-3af5-5e59-8f1d-795393ea1991",
+      "19d354b9-49e2-5f3e-bc86-9fd637137ed4",
+      "3142877d-a3ee-513c-9908-e79c3b751cd1"
+    ],
+    "en-11": [
+      "e5e272c1-c738-5016-9a49-a9253cd4f955",
+      "6c393a6c-52ca-5591-84fd-e06efe9b8855",
+      "3669df93-f3ee-5120-aa3c-9f9ae6cf1ece",
+      "bb633dab-569f-53f7-b024-880a107ccb3a"
+    ],
+    "ru-01": [
+      "2e0a1300-fd78-5c96-8ccb-b1810cea2e77",
+      "3b7b2126-a6b0-5358-963a-00aee266b043",
+      "03cfcc51-bbfe-5798-9bec-132e5070f470",
+      "5f4c0ed7-c5d1-50af-8fbb-6a38aaa57c58"
+    ],
+    "ru-06": [
+      "c1a5728e-b8af-5665-a6b8-2530a9e587b1",
+      "46e6839e-fe78-5e16-a6d3-ce488de15397",
+      "e4463c4b-5d35-585b-ae08-3d827eb3b2fe",
+      "87e0598e-7251-58e5-934c-d059782f4fc3"
+    ],
+    "ru-07": [
+      "3b9bad30-5d9d-5b61-a6a7-5b5e47a52e6c",
+      "fd78663e-4d9f-5eab-b293-757e08d06ffa",
+      "8b8fed48-4a3d-53aa-8b7d-89967148913a",
+      "4284908b-a299-5a07-b6b5-ba7ef69d295f"
+    ],
+    "ru-11": [
+      "507171bb-5604-539b-b847-6848ceade9c6",
+      "2d9fa0ee-167e-5fe3-869d-1eb8e70cbeb6",
+      "6a7e63b0-336a-592b-888b-158c889ec614",
+      "850690a7-bde6-5c9e-97b8-0a45b28da4e6"
+    ]
+  },
+  "finished_at_utc": "2026-09-30T18:05:58.647924+00:00",
+  "host_machine": {
+    "processor": "12th Gen Intel(R) Core(TM) i7-12700H",
+    "cores": 14,
+    "logical_processors": 20,
+    "physical_memory_bytes": 16870305792,
+    "docker_memory_limit": "7.61GiB",
+    "measurement_note": "Local workstation; Docker and other development services were running; no dedicated hardware isolation."
+  }
+}

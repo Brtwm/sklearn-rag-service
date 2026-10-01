@@ -1,6 +1,9 @@
+import re
 import time
 from contextlib import asynccontextmanager
+from html import escape
 from threading import Lock
+from urllib.parse import quote, urlsplit
 
 import gradio as gr
 from fastapi import FastAPI, HTTPException
@@ -95,18 +98,28 @@ def chat(payload: ChatRequest) -> ChatResponse:
     return ChatResponse(answer=answer, sources=sources)
 
 
-def _format_timings(retrieval_ms: float, llm_ms: float | None, llm_error: str | None) -> str:
-    lines = [
-        "### ⏱ Тайминги последнего запроса",
-        "",
-        f"- 🔍 **Retrieval:** {retrieval_ms:.0f} ms",
-    ]
-    if llm_ms is not None:
-        lines.append(f"- 🤖 **LLM call:** {llm_ms:.0f} ms")
-        lines.append(f"- 📊 **Total:** {retrieval_ms + llm_ms:.0f} ms")
-    else:
-        lines.append(f"- 🤖 **LLM call:** ❌ {llm_error}")
+def _format_timings(
+    status: str,
+    retrieval_ms: float | None = None,
+    ttft_ms: float | None = None,
+    llm_ms: float | None = None,
+    total_ms: float | None = None,
+) -> str:
+    lines = ["### ⏱ Последний запрос", "", f"**{status}**", ""]
+    if retrieval_ms is not None:
+        lines.append(f"- 🔍 **Поиск:** {retrieval_ms:.0f} мс")
+    if ttft_ms is not None:
+        lines.append(f"- ⚡ **Первый фрагмент LLM:** {ttft_ms:.0f} мс")
+    if llm_ms is not None and ttft_ms is not None:
+        lines.append(f"- 🤖 **Генерация LLM:** {llm_ms - ttft_ms:.0f} мс")
+    if total_ms is not None:
+        lines.append(f"- 📊 **Всего:** {total_ms:.0f} мс")
     return "\n".join(lines)
+
+
+def _escape_markdown(text: str) -> str:
+    return re.sub(r"([\\`*_\[\]])", r"\\\1", escape(text, quote=False))
+
 
 def _format_sources(docs: list) -> str:
     if not docs:
@@ -114,9 +127,16 @@ def _format_sources(docs: list) -> str:
     lines = ["### 📚 Источники", ""]
     for i, doc in enumerate(docs, 1):
         source = doc.metadata.get("source", "unknown")
-        snippet = doc.page_content[:140].strip().replace("\n", " ")
-        lines.append(f"**[{i}]** `{source}`")
-        lines.append(f"> {snippet}…")
+        title = _escape_markdown(doc.metadata.get("title") or source)
+        parsed = urlsplit(source)
+        if parsed.scheme in ("http", "https") and parsed.netloc:
+            url = quote(source, safe=":/?#[]@!$&'()*+,;=%")
+            title = f"[{title}](<{url}>)"
+        snippet = _escape_markdown(doc.page_content[:140].strip().replace("\n", " "))
+        if len(doc.page_content) > 140:
+            snippet += "…"
+        lines.append(f"**[{i}]** {title}")
+        lines.append(f"> {snippet}")
         lines.append("")
     return "\n".join(lines)
 
@@ -127,34 +147,39 @@ def respond(message: str, history: list):
         yield history, "", "### ⏱ Тайминги\n\n_Пустой запрос_", "### 📚 Источники\n\n_—_"
         return
 
-    history = history + [{"role": "user", "content": message}]
+    started = time.perf_counter()
+    history = history + [
+        {"role": "user", "content": message},
+        {"role": "assistant", "content": ""},
+    ]
+    empty_sources = "### 📚 Источники\n\n_—_"
+    yield history, "", _format_timings("Проверка готовности…"), empty_sources
 
     if not _ensure_ready():
-        history.append({"role": "assistant", "content": "⚠️ Индекс пока недоступен. Попробуй позже."})
-        yield history, "", "### ⏱ Тайминги\n\n_Индекс недоступен_", "### 📚 Источники\n\n_—_"
+        history = history[:-1] + [{"role": "assistant", "content": "⚠️ Индекс пока недоступен. Попробуй позже."}]
+        yield history, "", _format_timings(
+            "Ошибка: индекс недоступен", total_ms=(time.perf_counter() - started) * 1000,
+        ), empty_sources
         return
 
     retriever, chain = _retriever, _chain
 
+    yield history, "", _format_timings("Поиск по документации…"), empty_sources
     t0 = time.perf_counter()
     try:
         docs = retriever.invoke(message)
     except Exception as exc:
-        history.append({"role": "assistant", "content": f"⚠️ Поиск сейчас недоступен ({type(exc).__name__})."})
-        yield history, "", "### ⏱ Тайминги\n\n_Ошибка поиска_", "### 📚 Источники\n\n_—_"
+        ended = time.perf_counter()
+        history = history[:-1] + [{"role": "assistant", "content": f"⚠️ Поиск сейчас недоступен ({type(exc).__name__})."}]
+        yield history, "", _format_timings(
+            "Ошибка поиска", retrieval_ms=(ended - t0) * 1000,
+            total_ms=(ended - started) * 1000,
+        ), empty_sources
         return
     retrieval_ms = (time.perf_counter() - t0) * 1000
     sources_panel = _format_sources(docs)
 
-    # Yield #1: sources уже на экране, LLM ещё не начал писать.
-    history.append({"role": "assistant", "content": ""})
-    yield (
-        history, "",
-        "### ⏱ Тайминги\n\n"
-        f"- 🔍 **Retrieval:** {retrieval_ms:.0f} ms\n"
-        "- 🤖 **LLM:** _streaming…_",
-        sources_panel,
-    )
+    yield history, "", _format_timings("Ожидание первого фрагмента LLM…", retrieval_ms), sources_panel
 
     t1 = time.perf_counter()
     ttft_ms: float | None = None
@@ -169,42 +194,53 @@ def respond(message: str, history: list):
             if ttft_ms is None:
                 ttft_ms = (time.perf_counter() - t1) * 1000
             accumulated += chunk
-            history[-1]["content"] = accumulated
+            history = history[:-1] + [{"role": "assistant", "content": accumulated}]
             yield (
                 history, "",
-                f"### ⏱ Тайминги\n\n"
-                f"- 🔍 **Retrieval:** {retrieval_ms:.0f} ms\n"
-                f"- ⚡ **TTFT (1st token):** {ttft_ms:.0f} ms\n"
-                f"- 🤖 **LLM:** _streaming… {len(accumulated)} chars_",
+                _format_timings("Генерация ответа…", retrieval_ms, ttft_ms),
                 sources_panel,
             )
 
+        ended = time.perf_counter()
         if ttft_ms is None:
-            history[-1]["content"] = "⚠️ LLM не вернула ответ. Попробуй ещё раз."
-            yield history, "", _format_timings(retrieval_ms, None, "empty response"), sources_panel
+            history = history[:-1] + [{"role": "assistant", "content": "⚠️ LLM не вернула ответ. Попробуй ещё раз."}]
+            yield history, "", _format_timings(
+                "Ошибка: пустой ответ LLM", retrieval_ms, total_ms=(ended - started) * 1000,
+            ), sources_panel
             return
 
-        llm_total_ms = (time.perf_counter() - t1) * 1000
+        llm_total_ms = (ended - t1) * 1000
         yield (
             history, "",
-            "### ⏱ Тайминги последнего запроса\n\n"
-            f"- 🔍 **Retrieval:** {retrieval_ms:.0f} ms\n"
-            f"- ⚡ **TTFT:** {ttft_ms:.0f} ms\n"
-            f"- 🤖 **LLM stream (full):** {llm_total_ms:.0f} ms\n"
-            f"- 📊 **Total:** {retrieval_ms + llm_total_ms:.0f} ms",
+            _format_timings("Завершено", retrieval_ms, ttft_ms, llm_total_ms, (ended - started) * 1000),
             sources_panel,
         )
 
     except Exception as exc:
-        history[-1]["content"] = (
+        ended = time.perf_counter()
+        error = (
             f"⚠️ LLM-провайдер сейчас недоступен ({type(exc).__name__}). "
             f"Попробуй через 30-60 секунд."
         )
+        content = f"{accumulated}\n\nОтвет не завершён. {error}" if accumulated else error
+        history = history[:-1] + [{"role": "assistant", "content": content}]
         yield (
             history, "",
-            _format_timings(retrieval_ms, None, type(exc).__name__),
+            _format_timings("Ошибка LLM", retrieval_ms, ttft_ms, (ended - t1) * 1000, (ended - started) * 1000),
             sources_panel,
         )
+
+
+def _respond_ui(message: str, history: list):
+    """Keep controls disabled throughout streaming, including handled failures."""
+    try:
+        for chat_history, value, timings, sources in respond(message, history):
+            yield chat_history, gr.update(value=value, interactive=False), timings, sources, gr.update(interactive=False)
+    except Exception:
+        yield gr.skip(), gr.update(interactive=False), _format_timings(
+            "Ошибка обработки запроса. Попробуй ещё раз.",
+        ), gr.skip(), gr.update(interactive=False)
+    yield gr.skip(), gr.update(interactive=True), gr.skip(), gr.skip(), gr.update(interactive=True)
 
 
 CSS = """
@@ -253,9 +289,19 @@ with gr.Blocks(
                 )
                 sources_md = gr.Markdown("### 📚 Источники\n\n_—_")
 
-    msg.submit(respond, [msg, chatbot], [chatbot, msg, timings_md, sources_md])
-    send.click(respond, [msg, chatbot], [chatbot, msg, timings_md, sources_md])
+    gr.on(
+        triggers=[msg.submit, send.click],
+        fn=_respond_ui,
+        inputs=[msg, chatbot],
+        outputs=[chatbot, msg, timings_md, sources_md, send],
+        trigger_mode="once",
+        concurrency_limit=1,
+        concurrency_id="chat",
+        show_progress="minimal",
+        api_name="respond",
+    )
 
+demo.queue(max_size=8, default_concurrency_limit=1)
 
 app = gr.mount_gradio_app(
     app,

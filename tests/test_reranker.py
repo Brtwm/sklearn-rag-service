@@ -125,7 +125,7 @@ def test_rest_and_stream_citations_follow_reranked_order(rag_with_reranker) -> N
         events = list(stream)
         assert events[-1][0][-1]["content"] == "See [1] and [4]."
         for rank, i in enumerate((5, 4, 3, 2), 1):
-            assert f"**[{rank}]** `https://example.org/page#{i}`" in events[-1][3]
+            assert f"**[{rank}]** [Section](<https://example.org/page#{i}>)" in events[-1][3]
     assert client.query_points.call_count == 2
     assert encoder.return_value.predict.call_count == 2
     assert encoder.call_count == 1
