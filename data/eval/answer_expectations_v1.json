@@ -1,0 +1,32 @@
+[
+  {
+    "id": "en-01",
+    "expected_facts": ["Ridge minimizes squared error plus alpha times the squared L2 norm of coefficients.", "Increasing alpha strengthens shrinkage; alpha=0 removes the L2 penalty."],
+    "expected_refusal": false
+  },
+  {
+    "id": "en-07",
+    "expected_facts": ["After fitting, access the fitted transformer through pipeline.named_steps['step_name'] and then its learned attribute.", "Caching clones transformers, so inspect the fitted pipeline step rather than the original transformer instance."],
+    "expected_refusal": false
+  },
+  {
+    "id": "en-11",
+    "expected_facts": ["Pipeline.memory accepts a cache directory or joblib.Memory and reuses fitted intermediate transformers when parameters and input data match.", "The final pipeline step is never cached; caching clones transformers.", "RandomizedSearchCV.n_iter controls the number of sampled parameter settings independently of the size of a parameter grid."],
+    "expected_refusal": false
+  },
+  {
+    "id": "ru-01",
+    "expected_facts": ["Lasso использует L1-штраф и может делать коэффициенты точно равными нулю, обеспечивая разреженность и отбор признаков.", "alpha управляет силой регуляризации: увеличение alpha усиливает штраф и сжатие коэффициентов."],
+    "expected_refusal": false
+  },
+  {
+    "id": "ru-06",
+    "expected_facts": ["handle_unknown='error' вызывает ошибку при неизвестной категории; handle_unknown='ignore' кодирует её нулями для соответствующего признака.", "handle_unknown='infrequent_if_exist' относит неизвестную категорию к группе редких, если такая группа есть; иначе действует как 'ignore'."],
+    "expected_refusal": false
+  },
+  {
+    "id": "ooc-ru-01",
+    "expected_facts": [],
+    "expected_refusal": true
+  }
+]
